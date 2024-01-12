@@ -2,7 +2,7 @@ package fr.savkin.reveal.suggestions.port;
 
 import fr.savkin.reveal.suggestions.exception.MailerException;
 import fr.savkin.reveal.suggestions.model.MailingInfo;
-import org.springframework.validation.annotation.Validated;
+import lombok.NonNull;
 
 /**
  * Port for interaction with MailerService.
@@ -15,5 +15,5 @@ public interface MailerPort {
      * @param mailingInfo {@link MailingInfo} - data model for title, content and recipients.
      * @throws MailerException depending on implementation.
      */
-    void sendMail(@Validated MailingInfo mailingInfo) throws MailerException;
+    void sendMail(@NonNull MailingInfo mailingInfo) throws MailerException;
 }

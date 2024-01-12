@@ -21,4 +21,6 @@ public class SuggestionsServiceLogsAndMessages {
     public static final String EMPTY_SCHEDULE = "Mailing schedule is empty.";
     public static final String REPEATING_TIMERS = "Mailing schedule contains repeating timers.";
     public static final String NO_MORE_PARTNERS = "There's no pending partners left, end of mailing.";
+    public static final String UNKNOWN_ERROR = "Something went wrong, the reason is unknown.";
+
 }

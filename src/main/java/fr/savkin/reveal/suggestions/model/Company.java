@@ -2,8 +2,7 @@ package fr.savkin.reveal.suggestions.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.validation.annotation.Validated;
+import lombok.NonNull;
 
 /**
  * Data class for company.
@@ -13,11 +12,11 @@ import org.springframework.validation.annotation.Validated;
 @AllArgsConstructor
 public class Company {
 
-    private int id; //todo explain why name was changed
+    private int id;
 
-    @NotEmpty
+    @NonNull
     private String country;
 
-    @NotEmpty
+    @NonNull
     private String industry;
 }

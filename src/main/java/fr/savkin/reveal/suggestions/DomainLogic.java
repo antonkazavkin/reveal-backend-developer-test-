@@ -6,11 +6,13 @@ import fr.savkin.reveal.suggestions.model.MailingInfo;
 import fr.savkin.reveal.suggestions.model.enums.PartnershipStatus;
 import fr.savkin.reveal.suggestions.port.*;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Map;
 import java.util.Set;
+
+import static fr.savkin.reveal.suggestions.exception.SuggestionsServiceLogsAndMessages.*;
 
 /**
  * Contains domain logic for Suggestions Service.
@@ -39,7 +41,7 @@ public class DomainLogic {
         try {
             persistencePort.updatePartnershipStatus(companyId, partnerId, status);
         } catch (PersistenceException pe) {
-            throw new SuggestionsServiceException(SuggestionsServiceLogsAndMessages.UNABLE_TO_UPDATE_STATUS, companyId, pe);
+            throw new SuggestionsServiceException(UNABLE_TO_UPDATE_STATUS, companyId, pe);
         }
     }
 
@@ -49,7 +51,7 @@ public class DomainLogic {
      * @param company company that just joined Reveal.
      * @throws SuggestionsServiceException if validation failed or interaction with a port went bad.
      */
-    public void handleCompanyCreated(@Validated Company company) throws SuggestionsServiceException {
+    public void handleCompanyCreated(@NonNull Company company) throws SuggestionsServiceException {
 
         String companyCountry = company.getCountry();
         String companyIndustry = company.getIndustry();
@@ -65,14 +67,16 @@ public class DomainLogic {
             timerPort.sendSchedule(companyId, mailingSchedule);
 
         } catch (CompaniesException ce) {
-            throw new SuggestionsServiceException(SuggestionsServiceLogsAndMessages.UNABLE_TO_GET_SUGGESTIONS, companyId, ce);
+            throw new SuggestionsServiceException(UNABLE_TO_GET_SUGGESTIONS, companyId, ce);
         } catch (PersistenceException pe) {
-            throw new SuggestionsServiceException(SuggestionsServiceLogsAndMessages.UNABLE_TO_STORE_SUGGESTIONS, companyId, pe);
+            throw new SuggestionsServiceException(UNABLE_TO_STORE_SUGGESTIONS, companyId, pe);
         } catch (GrowthPoliciesException gpe) {
-            throw new SuggestionsServiceException(SuggestionsServiceLogsAndMessages.UNABLE_TO_GET_SCHEDULE, companyId, gpe);
+            throw new SuggestionsServiceException(UNABLE_TO_GET_SCHEDULE, companyId, gpe);
         } catch (TimerException te) {
-            throw new SuggestionsServiceException(SuggestionsServiceLogsAndMessages.UNABLE_TO_SET_TIMER, companyId, te);
-        } // todo catch UnexpectedError
+            throw new SuggestionsServiceException(UNABLE_TO_SET_TIMER, companyId, te);
+        } catch (Exception e) {
+            throw new UnknownError(UNKNOWN_ERROR);
+        }
     }
 
     /**
@@ -86,18 +90,20 @@ public class DomainLogic {
         try {
             Set<Company> pendingPartners = persistencePort.getPartnersByStatus(companyId, PartnershipStatus.PENDING);
             if (pendingPartners.isEmpty()) {
-                log.info(String.format(SuggestionsServiceLogsAndMessages.PROCESS_ID + SuggestionsServiceLogsAndMessages.NO_MORE_PARTNERS, companyId));
+                log.info(String.format(PROCESS_ID + NO_MORE_PARTNERS, companyId));
             } else {
                 MailingInfo mailingInfo = growthPoliciesPort.getMailingInfo(companyId, emailType, pendingPartners);
                 mailerPort.sendMail(mailingInfo);
             }
 
         } catch (PersistenceException pe) {
-            throw new SuggestionsServiceException(SuggestionsServiceLogsAndMessages.UNABLE_TO_GET_PENDING_PARTNERS, companyId, pe);
+            throw new SuggestionsServiceException(UNABLE_TO_GET_PENDING_PARTNERS, companyId, pe);
         } catch (GrowthPoliciesException gpe) {
-            throw new SuggestionsServiceException(SuggestionsServiceLogsAndMessages.UNABLE_TO_GET_MAILING_INFO, companyId, gpe);
+            throw new SuggestionsServiceException(UNABLE_TO_GET_MAILING_INFO, companyId, gpe);
         } catch (MailerException me) {
-            throw new SuggestionsServiceException(SuggestionsServiceLogsAndMessages.UNABLE_TO_SEND_MAIL, companyId, me);
-        } //todo catch UnexpectedError
+            throw new SuggestionsServiceException(UNABLE_TO_SEND_MAIL, companyId, me);
+        } catch (Exception e) {
+            throw new UnknownError(UNKNOWN_ERROR);
+        }
     }
 }

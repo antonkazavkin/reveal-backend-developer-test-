@@ -3,18 +3,13 @@ package fr.savkin.reveal.suggestions;
 import fr.savkin.reveal.suggestions.exception.SuggestionsServiceException;
 import fr.savkin.reveal.suggestions.model.Company;
 import fr.savkin.reveal.suggestions.model.enums.PartnershipStatus;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * todo Document type DomainLogicValidatorTest
- */
 class DomainLogicValidatorTest {
 
     static Company frenchTransportCompany;

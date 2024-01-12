@@ -18,9 +18,6 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * todo Document type DomainLogicTest
- */
 class DomainLogicTest {
 
     private DomainLogic tested;
@@ -84,17 +81,13 @@ class DomainLogicTest {
     @Test
     void handlePartnershipStatusUpdate_PersistencePortFailed_ExceptionThrown() throws PersistenceException {
 
-        int companyId = 423;
-        int partnerId = 231;
-        PartnershipStatus status = PartnershipStatus.ACCEPTED;
-
         doThrow(new PersistenceException())
             .when(persistencePort)
             .updatePartnershipStatus(anyInt(), anyInt(), any(PartnershipStatus.class));
 
         Exception exception = assertThrows(
             SuggestionsServiceException.class,
-            () -> tested.handlePartnershipStatusUpdate(companyId, partnerId, status)
+            () -> tested.handlePartnershipStatusUpdate(frenchTransportCompany.getId(), 231, PartnershipStatus.ACCEPTED)
         );
 
         String expectedMessage = "Partnership suggestions mailing for companyId - 423: Unable to update partnership status.";
@@ -104,30 +97,15 @@ class DomainLogicTest {
     }
 
     @Test
-    void handlePartnershipStatusUpdate_PersistencePortOk_ThenPartnershipUpdated() {
+    void handlePartnershipStatusUpdate_PersistencePortOk_ThenPartnershipUpdated() throws PersistenceException, SuggestionsServiceException {
 
-        int companyId = 423;
-        int partnerId = 231;
-        PartnershipStatus status = PartnershipStatus.ACCEPTED;
+        doNothing()
+            .when(persistencePort)
+            .updatePartnershipStatus(anyInt(), anyInt(), any(PartnershipStatus.class));
 
-        try {
-            doNothing()
-                .when(persistencePort)
-                .updatePartnershipStatus(anyInt(), anyInt(), any(PartnershipStatus.class));
+        tested.handlePartnershipStatusUpdate(frenchTransportCompany.getId(), 231, PartnershipStatus.ACCEPTED);
 
-            tested.handlePartnershipStatusUpdate(companyId, partnerId, status);
-
-            verify(persistencePort).updatePartnershipStatus(companyId, partnerId, status);
-        } catch (PersistenceException | SuggestionsServiceException e) {
-            fail();
-        }
-    }
-
-    @Test
-    void handleCompanyCreated_InvalidCompany_ExceptionThrown() throws SuggestionsServiceException {
-
-        Company nullCompany = new Company(12, "", null);
-        tested.handleCompanyCreated(nullCompany); //todo расписать в несколько
+        verify(persistencePort).updatePartnershipStatus(frenchTransportCompany.getId(), 231, PartnershipStatus.ACCEPTED);
     }
 
     @Test
@@ -312,11 +290,6 @@ class DomainLogicTest {
         String actualMessage = exception.getMessage();
 
         assertEquals(expectedMessage, actualMessage);
-    }
-
-    @Test
-    void handleTimerExpired_InvalidMailingInfo_ExceptionThrown() {
-        //todo расписать в несколько
     }
 
     @Test

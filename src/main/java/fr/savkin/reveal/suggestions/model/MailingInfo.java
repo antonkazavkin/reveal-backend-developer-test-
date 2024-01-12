@@ -1,7 +1,5 @@
 package fr.savkin.reveal.suggestions.model;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
@@ -13,16 +11,15 @@ import java.util.Set;
  * Contains title, content and set of recipients.
  */
 @Data
-@NotNull
 @AllArgsConstructor
 public class MailingInfo {
 
-    @NotEmpty
+    @NonNull
     private String title;
 
-    @NotEmpty
+    @NonNull
     private String content;
 
-    @NotEmpty
+    @NonNull
     private Set<String> recipients;
 }
