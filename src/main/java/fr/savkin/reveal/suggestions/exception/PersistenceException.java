@@ -1,7 +1,7 @@
 package fr.savkin.reveal.suggestions.exception;
 
 /**
- * todo Document type PersistenceException
+ * An exception thrown by PersistenceService.
  */
 public class PersistenceException extends Exception{
 }

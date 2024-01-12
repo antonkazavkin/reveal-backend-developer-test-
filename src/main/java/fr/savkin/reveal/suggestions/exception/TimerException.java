@@ -1,7 +1,7 @@
 package fr.savkin.reveal.suggestions.exception;
 
 /**
- * todo Document type TimerException
+ * An exception thrown by TimerService.
  */
 public class TimerException extends Exception{
 }

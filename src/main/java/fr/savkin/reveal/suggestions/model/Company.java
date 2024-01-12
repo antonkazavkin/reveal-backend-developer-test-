@@ -6,11 +6,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * todo Document type Company
- * 1. id or pk?
- * 2. country -> countryCode?
- * 3. industry -> enum
- * todo add validation like @NonNull
+ * Data class for company.
+ * Contains id, country and industry.
  */
 @Data
 @AllArgsConstructor

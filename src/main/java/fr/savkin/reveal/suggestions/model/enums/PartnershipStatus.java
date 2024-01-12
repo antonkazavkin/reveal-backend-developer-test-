@@ -1,7 +1,7 @@
 package fr.savkin.reveal.suggestions.model.enums;
 
 /**
- * todo Document type PartnershipStatus
+ * Possible values for partnership status.
  */
 public enum PartnershipStatus {
 

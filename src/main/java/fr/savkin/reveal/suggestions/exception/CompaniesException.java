@@ -1,7 +1,7 @@
 package fr.savkin.reveal.suggestions.exception;
 
 /**
- * todo Document type CompaniesException
+ * An exception thrown by CompaniesService.
  */
 public class CompaniesException extends Exception {
 }

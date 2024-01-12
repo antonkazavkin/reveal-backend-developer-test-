@@ -2,16 +2,19 @@ package fr.savkin.reveal.suggestions.port;
 
 import fr.savkin.reveal.suggestions.exception.TimerException;
 
-import java.math.BigInteger;
 import java.util.Map;
-import java.util.Set;
 
 /**
- * todo Document type TimerPort
+ * Port for interaction with TimerService.
+ * Should be implemented by any TimerAdapter.
  */
 public interface TimerPort {
 
-    void setTimer(int companyId, Map.Entry<Integer, Long> timer) throws TimerException; // todo delete
-
+    /**
+     * Sends mailing schedule to TimerService in order to set timers.
+     * @param companyId identifier (or primary key) of a company for which the mailing is processed.
+     * @param schedule schedule of timers - a map of pairs "Email Type" to "Time before expiration".
+     * @throws TimerException depending on implementation.
+     */
     void sendSchedule(int companyId, Map<Integer, Long> schedule) throws TimerException;
 }

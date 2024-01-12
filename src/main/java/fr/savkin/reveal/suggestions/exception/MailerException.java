@@ -1,7 +1,7 @@
 package fr.savkin.reveal.suggestions.exception;
 
 /**
- * todo Document type MailerException
+ * An exception thrown by MailerService.
  */
 public class MailerException extends Exception{
 }

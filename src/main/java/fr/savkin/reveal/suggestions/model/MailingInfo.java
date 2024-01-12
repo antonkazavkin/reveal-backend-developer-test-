@@ -9,7 +9,8 @@ import lombok.NonNull;
 import java.util.Set;
 
 /**
- * todo Document type MailingInfo
+ * Data class for mailing info.
+ * Contains title, content and set of recipients.
  */
 @Data
 @NotNull

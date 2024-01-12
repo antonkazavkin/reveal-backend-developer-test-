@@ -1,7 +1,7 @@
 package fr.savkin.reveal.suggestions.exception;
 
 /**
- * todo Document type GrowthPoliciesException
+ * An exception thrown by GrowthPoliciesService.
  */
 public class GrowthPoliciesException extends Exception{
 }
